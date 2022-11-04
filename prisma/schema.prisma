@@ -22,6 +22,8 @@ model Product {
   category Categories
   
   title String
+  image String
+  price Int
 }
 
 enum Categories {

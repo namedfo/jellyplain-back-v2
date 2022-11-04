@@ -9,8 +9,10 @@ export class ProductService {
   async create(dto: any): Promise<any> {
     return await this.prisma.product.create({
       data: {
-        title: 'hi',
-        category: 'sneakers',
+        title: dto.title,
+        image: dto.image,
+        price: dto.price,
+        category: dto.price,
       },
     });
   }
