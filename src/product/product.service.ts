@@ -12,7 +12,7 @@ export class ProductService {
         title: dto.title,
         image: dto.image,
         price: dto.price,
-        category: dto.price,
+        category: dto.category,
       },
     });
   }
