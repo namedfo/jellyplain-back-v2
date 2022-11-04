@@ -16,4 +16,8 @@ export class ProductService {
       },
     });
   }
+
+  async get_all(): Promise<any> {
+    return await this.prisma.product.findMany()
+  }
 }

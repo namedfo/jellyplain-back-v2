@@ -12,8 +12,8 @@ export class ProductController {
   }
 
   @Get('getAll')
-  async get_all(@Body() dto: any) {
+  async get_all() {
     console.log('log');
-    // return await this.orderService.create(dto);
+    return await this.productService.get_all();
   }
 }
