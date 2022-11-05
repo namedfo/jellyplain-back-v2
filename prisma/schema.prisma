@@ -13,31 +13,31 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
+
+
 model Product {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   category Categories
+  type Type
+  brand Brand
 
   productChilds ProductChild[]
-  productChildId Int
-  
-  brand String
+  reviews Review[]
 
-  reviews  Review @relation(fields: [reviewId], references: [id])
-  reviewId Int
 
-  title          String
-  price          Int
+  title String
+  price Int
 }
 
 model ProductChild {
   id Int @id @default(autoincrement())
 
-  image     String   @db.Char(500)
-  color     Colors
-  size      Sizes
+  image String @db.Char(500)
+  color Colors
+  size  Sizes
 
   product   Product? @relation(fields: [productId], references: [id])
   productId Int?
@@ -51,7 +51,26 @@ model Review {
   rating  Int
   comment String @db.Char(10000)
 
-  product Product[]
+  product   Product? @relation(fields: [productId], references: [id])
+  productId Int?
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+enum Type {
+  original
+  replica
 }
 
 enum Categories {
@@ -60,6 +79,13 @@ enum Categories {
   jersey
   shorts
   jackets
+}
+
+enum Brand {
+  nike
+  adidas
+  puma
+  jordan
 }
 
 enum Colors {

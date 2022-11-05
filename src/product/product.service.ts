@@ -6,18 +6,23 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ProductService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: any): Promise<any> {
-    return await this.prisma.product.create({
-      data: {
-        title: dto.title,
-        image: dto.image,
-        price: dto.price,
-        category: dto.category,
-      },
-    });
+  async create(dto: any) {
+    // return await this.prisma.product.create({
+    //   data: {
+    //     title: dto.title,
+    //     image: dto.image,
+    //     price: dto.price,
+    //     category: dto.category,
+    //   },
+    // });
+    return 'hi';
   }
 
-  async get_all(): Promise<any> {
-    return await this.prisma.product.findMany()
+  async get_all(query: any): Promise<any> {
+    return await this.prisma.product.findMany({
+      where: {
+        category: query.category,
+      },
+    });
   }
 }
