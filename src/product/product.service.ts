@@ -25,7 +25,12 @@ export class ProductService {
           category: query.category,
         },
         include: {
-          productChilds: true,
+          productChilds: {
+            include: {
+              image: true,
+              size: true,
+            },
+          },
           reviews: true,
         },
       });
