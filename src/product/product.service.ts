@@ -24,9 +24,18 @@ export class ProductService {
         where: {
           category: query.category,
         },
+        include: {
+          productChilds: true,
+          reviews: true,
+        },
       });
     }
 
-    return await this.prisma.product.findMany();
+    return await this.prisma.product.findMany({
+      include: {
+        productChilds: true,
+        reviews: true,
+      },
+    });
   }
 }
