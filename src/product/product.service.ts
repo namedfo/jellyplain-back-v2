@@ -27,8 +27,7 @@ export class ProductService {
         include: {
           productChilds: {
             include: {
-              image: true,
-              size: true,
+              images: true,
             },
           },
           reviews: true,
@@ -40,11 +39,17 @@ export class ProductService {
       include: {
         productChilds: {
           include: {
-            image: true,
-            size: true,
+            images: true,
           },
         },
         reviews: true,
+      },
+    });
+  }
+  async get_one(query: any) {
+    return await this.prisma.product.findUnique({
+      where: {
+        id: query.id,
       },
     });
   }

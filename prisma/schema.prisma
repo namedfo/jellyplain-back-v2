@@ -32,8 +32,8 @@ model Product {
 model ProductChild {
   id Int @id @default(autoincrement())
 
-  image Image[]
-  size  Size[]
+  images Image[]
+  sizes  Sizes[]
 
   color Colors
 
@@ -41,19 +41,11 @@ model ProductChild {
   productId Int?
 }
 
-model Size {
-  id Int @id @default(autoincrement())
-
-  size           Sizes
-  
-  productChild   ProductChild? @relation(fields: [productChildId], references: [id])
-  productChildId Int?
-}
 
 model Image {
   id Int @id @default(autoincrement())
 
-  image String @db.Char(2000)
+  url String @db.Char(2000)
 
   productChild   ProductChild? @relation(fields: [productChildId], references: [id])
   productChildId Int?
@@ -95,6 +87,8 @@ enum Colors {
   black
   blue
   yellow
+  white
+  colorful
 }
 
 enum Sizes {
