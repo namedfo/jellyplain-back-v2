@@ -38,7 +38,12 @@ export class ProductService {
 
     return await this.prisma.product.findMany({
       include: {
-        productChilds: true,
+        productChilds: {
+          include: {
+            image: true,
+            size: true,
+          },
+        },
         reviews: true,
       },
     });
