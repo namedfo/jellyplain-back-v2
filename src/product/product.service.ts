@@ -19,10 +19,14 @@ export class ProductService {
   }
 
   async get_all(query: any): Promise<any> {
-    return await this.prisma.product.findMany({
-      where: {
-        category: query.category,
-      },
-    });
+    if (query.category) {
+      return await this.prisma.product.findMany({
+        where: {
+          category: query.category,
+        },
+      });
+    }
+
+    return await this.prisma.product.findMany();
   }
 }

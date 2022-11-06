@@ -84,8 +84,8 @@ enum Categories {
 enum Brand {
   nike
   adidas
-  puma
-  jordan
+  underarmour
+  thenorthface
 }
 
 enum Colors {
