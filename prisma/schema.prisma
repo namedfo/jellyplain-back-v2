@@ -18,9 +18,11 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  category Categories
-  type     Type
-  brand    Brand
+  category    Categories
+  subcategory SubCategory?
+
+  type  Type
+  brand Brand
 
   productChilds ProductChild[]
   reviews       Review[]
@@ -41,11 +43,10 @@ model ProductChild {
   productId Int?
 }
 
-
 model Image {
   id Int @id @default(autoincrement())
 
-  url String @db.Char(2000)
+  url String @db.Text
 
   productChild   ProductChild? @relation(fields: [productChildId], references: [id])
   productChildId Int?
@@ -70,10 +71,19 @@ enum Type {
 
 enum Categories {
   sneakers
-  hoodies
-  jersey
+  uniform
+  clothes
+  accessories
+  basketballs
+}
+
+enum SubCategory {
+  everyday
+  basketball
+
   shorts
   jackets
+  hoodies
 }
 
 enum Brand {
