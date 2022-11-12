@@ -9,8 +9,30 @@ generator client {
 
 datasource db {
   provider             = "postgresql"
-  url                  = "postgresql://gen_user:tq65teazd9@176.57.220.112:5432/default_db"
+  // url                  = "postgresql://postgres:123@localhost:5432/nestjs?schema=public"
+  url                  = "postgresql://gen_user:nwg4d99so7@5.23.55.233:5432/default_db"
   referentialIntegrity = "prisma"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vkID Int
+  role Roles @default(default)
+
+  bdate      String
+  first_name String
+  last_name  String
+  avatar_url String @db.VarChar(1000)
+
+  @@unique([vkID])
+}
+
+enum Roles {
+  default
+  admin
 }
 
 model Product {
