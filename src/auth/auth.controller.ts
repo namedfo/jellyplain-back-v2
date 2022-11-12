@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 
@@ -11,10 +11,10 @@ export class AuthController {
     return await this.authService.vk(body);
   }
 
-//   @Get('one')
-//   @UseGuards(AuthGuard('jwt'), RolesGuard)
-//   @Roles('admin')
-//   async one() {
-//     return await this.authService.findUser();
-//   }
+  @Get('one')
+  // @UseGuards(AuthGuard('jwt'), RolesGuard)
+  // @Roles('admin')
+  async one() {
+    return await this.authService.findUser();
+  }
 }

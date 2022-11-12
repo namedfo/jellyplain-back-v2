@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   async findUser() {
-    // return 'hi';
+    return 'hi';
     // return await this.prisma.user.findUnique({
     //   where: {
     //     id: id,
