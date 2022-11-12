@@ -6,10 +6,6 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const whitelist = [
-    'http://localhost:3000',
-    'https://jellyplainv2.herokuapp.com',
-  ];
 
   app.enableCors({
     origin: ['http://localhost:3000', 'https://jellyplainv2.herokuapp.com'],
