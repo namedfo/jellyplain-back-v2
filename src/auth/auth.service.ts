@@ -31,10 +31,7 @@ export class AuthService {
   }
 
   async vk(body: any) {
-    const vkUserData: any = await this.getUserDataFromVk(
-      body.userId,
-      body.token,
-    );
+    const vkUserData: any = await this.getUserDataFromVk(body.id, body.token);
 
     const _user = await this.prisma.user.findUnique({
       where: {
