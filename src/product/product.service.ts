@@ -51,6 +51,14 @@ export class ProductService {
       where: {
         id: +query.id,
       },
+      include: {
+        productChilds: {
+          include: {
+            images: true,
+          },
+        },
+        reviews: true,
+      },
     });
   }
 }
