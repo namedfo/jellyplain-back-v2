@@ -49,7 +49,7 @@ export class ProductService {
   async get_one(query: any) {
     return await this.prisma.product.findUnique({
       where: {
-        id: query.id,
+        id: +query.id,
       },
     });
   }
