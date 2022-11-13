@@ -67,7 +67,7 @@ export class AuthService {
     const token: any = await this.http.axiosRef.get(
       `https://oauth.vk.com/access_token?client_id=51473574&client_secret=eyukYXPWuEzwSvYkKM5x&redirect_uri=https://jellyplain-main.vercel.app/redirect&code=${code}`,
     );
-    console.log(token);
+    console.log(token.data);
   }
 
   async getUserDataFromVk(userId: number, token: string) {
