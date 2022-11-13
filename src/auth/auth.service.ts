@@ -21,13 +21,22 @@ export class AuthService {
     });
   }
 
-  async findUser() {
-    return 'hi';
-    // return await this.prisma.user.findUnique({
-    //   where: {
-    //     id: id,
-    //   },
-    // });
+  async findUser(token: string) {
+    const payload: any = this.jwtService.decode(token);
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: payload.id,
+      },
+    });
+
+    return {
+      id: user.id,
+      createdAt: user.createdAt,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      avatar_url: user.avatar_url,
+      token: this.jwtService.sign({ id: user.id }),
+    };
   }
 
   async vk(code: string) {
@@ -46,7 +55,11 @@ export class AuthService {
 
     if (_user) {
       return {
-        ..._user,
+        id: _user.id,
+        createdAt: _user.createdAt,
+        first_name: _user.first_name,
+        last_name: _user.last_name,
+        avatar_url: _user.avatar_url,
         token: this.jwtService.sign({ id: _user.id }),
       };
     }
@@ -62,7 +75,11 @@ export class AuthService {
         },
       });
       return {
-        ...newUser,
+        id: newUser.id,
+        createdAt: newUser.createdAt,
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        avatar_url: newUser.avatar_url,
         token: this.jwtService.sign({ id: newUser.id }),
       };
     }

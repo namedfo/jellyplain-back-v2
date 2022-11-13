@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Headers,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 import { AuthService } from './auth.service';
 
@@ -12,9 +20,10 @@ export class AuthController {
   }
 
   @Get('one')
-  // @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @UseGuards(AuthGuard('jwt')) // ,RolesGuard
   // @Roles('admin')
-  async one() {
-    return await this.authService.findUser();
+  async one(@Headers() head: any) {
+    const token = head.authorization.split(' ')[1];
+    return await this.authService.findUser(token);
   }
 }
