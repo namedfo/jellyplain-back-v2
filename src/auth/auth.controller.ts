@@ -8,7 +8,7 @@ export class AuthController {
 
   @Post('login/vk')
   async vk(@Body() body: any) {
-    return await this.authService.vk(body);
+    return await this.authService.vk(body.code);
   }
 
   @Get('one')
