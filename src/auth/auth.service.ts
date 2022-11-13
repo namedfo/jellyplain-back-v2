@@ -67,28 +67,28 @@ export class AuthService {
     );
 
     console.log(data?.data);
-    if (data?.data?.response[0]) {
-      // return {
-      //   id: data.data.response[0]?.id,
-      //   first_name: data.data.response[0]?.first_name,
-      //   last_name: data.data.response[0]?.last_name,
-      //   image: data.data.response[0]?.photo_200,
-      //   bdate: data.data.response[0]?.bdate,
-      // };
-      return {
-        id: 2,
-        createdAt: '2022-11-12T14:28:19.356Z',
-        updatedAt: '2022-11-12T14:28:19.356Z',
-        vkID: 286453384,
-        role: 'default',
-        bdate: '28.6.2005',
-        first_name: 'Миша',
-        last_name: 'Полещенков',
-        avatar_url:
-          'https://sun1.userapi.com/sun1-84/s/v1/ig2/rDRmDR9Fd9HKxnwviOE1UQ3krBOX6TG8_Ivbn2BlS9XDA_iltzzg0E2uZqULWZ17v-sTIUmKX8QuIhXZeWSkceXm.jpg?size=200x200&quality=96&crop=0,16,200,200&ava=1',
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjY4MzI0NDc0LCJleHAiOjE2Njg0MTA4NzR9.zcYQYUahsYd5yVk1jsc4wVD805Ymy8r44nGs54lyg2s',
-      };
-    }
+    // if (data?.data?.response[0]) {
+    // return {
+    //   id: data.data.response[0]?.id,
+    //   first_name: data.data.response[0]?.first_name,
+    //   last_name: data.data.response[0]?.last_name,
+    //   image: data.data.response[0]?.photo_200,
+    //   bdate: data.data.response[0]?.bdate,
+    // };
+    return {
+      id: 2,
+      createdAt: '2022-11-12T14:28:19.356Z',
+      updatedAt: '2022-11-12T14:28:19.356Z',
+      vkID: 286453384,
+      role: 'default',
+      bdate: '28.6.2005',
+      first_name: 'Миша',
+      last_name: 'Полещенков',
+      avatar_url:
+        'https://sun1.userapi.com/sun1-84/s/v1/ig2/rDRmDR9Fd9HKxnwviOE1UQ3krBOX6TG8_Ivbn2BlS9XDA_iltzzg0E2uZqULWZ17v-sTIUmKX8QuIhXZeWSkceXm.jpg?size=200x200&quality=96&crop=0,16,200,200&ava=1',
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjY4MzI0NDc0LCJleHAiOjE2Njg0MTA4NzR9.zcYQYUahsYd5yVk1jsc4wVD805Ymy8r44nGs54lyg2s',
+    };
+    // }
   }
 }
