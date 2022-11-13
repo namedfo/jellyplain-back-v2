@@ -8,7 +8,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://jellyplainv2.herokuapp.com'],
+    origin: [
+      'http://localhost:3000',
+      'https://jellyplain-main.vercel.app',
+      'http://5.23.48.96:3333',
+    ],
     methods: ['GET', 'POST'],
     credentials: true,
   });

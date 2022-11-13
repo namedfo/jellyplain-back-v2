@@ -33,41 +33,47 @@ export class AuthService {
   async vk(code: string) {
     const getTokenAndUserId = await this.getVkToken(code);
 
-    // const vkUserData: any = await this.getUserDataFromVk(body.id, body.token);
+    const vkUserData: any = await this.getUserDataFromVk(
+      getTokenAndUserId.user_id,
+      getTokenAndUserId.access_token,
+    );
 
-    // const _user = await this.prisma.user.findUnique({
-    //   where: {
-    //     vkID: vkUserData?.id,
-    //   },
-    // });
-    // if (_user) {
-    //   return {
-    //     ..._user,
-    //     token: this.jwtService.sign({ id: _user.id }),
-    //   };
-    // }
-    // if (vkUserData.id && !_user) {
-    //   const newUser = await this.prisma.user.create({
-    //     data: {
-    //       vkID: vkUserData.id,
-    //       first_name: vkUserData.first_name,
-    //       last_name: vkUserData.last_name,
-    //       avatar_url: vkUserData.image,
-    //       bdate: vkUserData.bdate,
-    //     },
-    //   });
-    //   return {
-    //     ...newUser,
-    //     token: this.jwtService.sign({ id: newUser.id }),
-    //   };
-    // }
+    const _user = await this.prisma.user.findUnique({
+      where: {
+        vkID: vkUserData?.id,
+      },
+    });
+
+    if (_user) {
+      return {
+        ..._user,
+        token: this.jwtService.sign({ id: _user.id }),
+      };
+    }
+
+    if (vkUserData.id && !_user) {
+      const newUser = await this.prisma.user.create({
+        data: {
+          vkID: vkUserData.id,
+          first_name: vkUserData.first_name,
+          last_name: vkUserData.last_name,
+          avatar_url: vkUserData.image,
+          bdate: vkUserData.bdate,
+        },
+      });
+      return {
+        ...newUser,
+        token: this.jwtService.sign({ id: newUser.id }),
+      };
+    }
   }
 
   async getVkToken(code: string) {
     const token: any = await this.http.axiosRef.get(
       `https://oauth.vk.com/access_token?client_id=51473574&client_secret=eyukYXPWuEzwSvYkKM5x&redirect_uri=https://jellyplain-main.vercel.app/redirect&code=${code}`,
     );
-    console.log(token.data);
+
+    return token?.data;
   }
 
   async getUserDataFromVk(userId: number, token: string) {
