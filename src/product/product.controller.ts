@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 //
 import { ProductService } from './product.service';
 
-@Controller('order')
+@Controller('product')
 export class ProductController {
   constructor(private productService: ProductService) {}
 
