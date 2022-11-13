@@ -35,7 +35,7 @@ export class AuthService {
 
     const _user = await this.prisma.user.findUnique({
       where: {
-        vkID: vkUserData.id,
+        vkID: vkUserData?.id,
       },
     });
     if (_user) {
@@ -66,12 +66,14 @@ export class AuthService {
       `https://api.vk.com/method/users.get?user_ids=${userId}&fields=photo_200,bdate&access_token=${token}&v=5.131`,
     );
 
-    return {
-      id: data.data.response[0].id,
-      first_name: data.data.response[0].first_name,
-      last_name: data.data.response[0].last_name,
-      image: data.data.response[0].photo_200,
-      bdate: data.data.response[0].bdate,
-    };
+    if (data?.data?.response[0]) {
+      return {
+        id: data.data.response[0].id,
+        first_name: data.data.response[0].first_name,
+        last_name: data.data.response[0].last_name,
+        image: data.data.response[0].photo_200,
+        bdate: data.data.response[0].bdate,
+      };
+    }
   }
 }
