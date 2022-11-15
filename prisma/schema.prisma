@@ -22,12 +22,92 @@ model User {
   vkID Int
   role Roles @default(default)
 
+  reviews  Review[]
+  comments Comment[]
+  orders   Order[]
+
+  address Address[]
+
   bdate      String
   first_name String
   last_name  String
   avatar_url String @db.VarChar(1000)
 
   @@unique([vkID])
+}
+
+model Address {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  result String @db.VarChar(250)
+
+  surname String
+  name    String
+  middle  String
+
+  country String
+  city    String
+  region  String
+
+  street      String
+  home_street String
+  home_number Int
+
+  postal_code Int
+
+  phone_number String
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Int[]
+
+  totalPrice Int
+  trackCode  String @db.VarChar(200)
+
+  comments Comment[]
+
+  delivery Delivery @default(pochtaru)
+
+  status Status @default(inprogress)
+
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  text String @db.VarChar(1000)
+
+
+  user User @relation(fields: [userId], references: [id])
+  userId  Int
+
+  order   Order? @relation(fields: [orderId], references: [id])
+  orderId Int?
+}
+
+enum Delivery {
+  pochtaru
+  pickup
+}
+
+enum Status {
+  inprogress
+  confirmed
+  sent
+  complected
 }
 
 enum Roles {
@@ -59,7 +139,7 @@ model ProductChild {
   images Image[]
   sizes  Sizes[]
 
-  color Colors
+  color Color[]
 
   product   Product? @relation(fields: [productId], references: [id])
   productId Int?
@@ -79,11 +159,14 @@ model Review {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  rating  Int
-  comment String @db.Char(10000)
+  rating Int
+  text   String @db.Char(10000)
 
   product   Product? @relation(fields: [productId], references: [id])
   productId Int?
+
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?
 }
 
 enum Type {
@@ -115,15 +198,21 @@ enum Brand {
   thenorthface
 }
 
-enum Colors {
-  black
-  blue
-  yellow
-  white
-  colorful
+model Color {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hex String @db.Char(50)
+
+  productChild   ProductChild? @relation(fields: [productChildId], references: [id])
+  productChildId Int?
 }
 
 enum Sizes {
+  eu36
+  eu37
+  eu375
   eu38
   eu39
   eu40
@@ -133,8 +222,4 @@ enum Sizes {
   eu44
   eu45
   eu46
-  eu47
-  eu48
-  eu49
-  eu50
 }
