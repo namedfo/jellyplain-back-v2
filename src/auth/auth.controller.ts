@@ -19,7 +19,7 @@ export class AuthController {
     return await this.authService.vk(body.code);
   }
 
-  @Get('one')
+  @Get('me')
   @UseGuards(AuthGuard('jwt')) // ,RolesGuard
   // @Roles('admin')
   async one(@Headers() head: any) {

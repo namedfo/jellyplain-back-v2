@@ -28,6 +28,8 @@ model User {
 
   address Address[]
 
+  phone_number Int?
+
   bdate      String
   first_name String
   last_name  String
@@ -57,7 +59,7 @@ model Address {
 
   postal_code Int
 
-  phone_number String
+  orders Order[]
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
@@ -68,19 +70,22 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  products Int[]
+  products Product[]
 
   totalPrice Int
-  trackCode  String @db.VarChar(200)
+  trackCode  String? @db.VarChar(200)
 
   comments Comment[]
 
   delivery Delivery @default(pochtaru)
 
-  status Status @default(inprogress)
+  address Address @relation(fields: [addressId], references: [id])
 
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?
+  status Status?
+
+  user      User? @relation(fields: [userId], references: [id])
+  userId    Int?
+  addressId Int
 }
 
 model Comment {
@@ -90,9 +95,8 @@ model Comment {
 
   text String @db.VarChar(1000)
 
-
-  user User @relation(fields: [userId], references: [id])
-  userId  Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 
   order   Order? @relation(fields: [orderId], references: [id])
   orderId Int?
@@ -104,7 +108,7 @@ enum Delivery {
 }
 
 enum Status {
-  inprogress
+  paid
   confirmed
   sent
   complected
@@ -125,6 +129,8 @@ model Product {
 
   type  Type
   brand Brand
+
+  orders Order[]
 
   productChilds ProductChild[]
   reviews       Review[]
