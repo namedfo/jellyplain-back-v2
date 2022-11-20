@@ -57,13 +57,17 @@ export class AuthService {
       where: {
         vkID: vkUserData?.id,
       },
+      include: {
+        orders: true,
+        address: true,
+      },
     });
 
     if (_user) {
       return {
         id: _user.id,
-        orders: user.orders,
-        address: user.address,
+        orders: _user.orders,
+        address: _user.address,
         createdAt: _user.createdAt,
         first_name: _user.first_name,
         last_name: _user.last_name,
@@ -81,11 +85,15 @@ export class AuthService {
           avatar_url: vkUserData.image,
           bdate: vkUserData.bdate,
         },
+        include: {
+          orders: true,
+          address: true,
+        },
       });
       return {
         id: newUser.id,
-        orders: user.orders,
-        address: user.address,
+        orders: newUser.orders,
+        address: newUser.address,
         createdAt: newUser.createdAt,
         first_name: newUser.first_name,
         last_name: newUser.last_name,
