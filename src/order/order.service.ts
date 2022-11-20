@@ -18,6 +18,6 @@ export class OrderService {
         address: { connect: { id: body.address.id } },
       },
     });
-    return order
+    return order;
   }
 }
