@@ -55,6 +55,7 @@ export class ProductService {
         productChilds: {
           include: {
             images: true,
+            colors: true,
           },
         },
         reviews: true,
