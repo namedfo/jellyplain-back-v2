@@ -81,13 +81,13 @@ model Order {
 
   delivery Delivery @default(pochtaru)
 
-  address Address @relation(fields: [addressId], references: [id])
+  address Address? @relation(fields: [addressId], references: [id])
+  addressId Int
 
   status Status?
 
   user      User? @relation(fields: [userId], references: [id])
   userId    Int?
-  addressId Int
 }
 
 model ProductOrder {
