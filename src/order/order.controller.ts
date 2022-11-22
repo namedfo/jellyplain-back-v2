@@ -7,6 +7,6 @@ export class OrderController {
 
   @Post('create')
   async create(@Body() body: any) {
-    return await this.orderService.create(body)
+    return await this.orderService.create(body);
   }
 }

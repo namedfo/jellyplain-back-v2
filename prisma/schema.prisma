@@ -82,7 +82,7 @@ model Order {
   delivery Delivery @default(pochtaru)
 
   address Address? @relation(fields: [addressId], references: [id])
-  addressId Int
+  addressId Int?
 
   status Status?
 
