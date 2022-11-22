@@ -81,13 +81,13 @@ model Order {
 
   delivery Delivery @default(pochtaru)
 
-  address Address? @relation(fields: [addressId], references: [id])
+  address   Address? @relation(fields: [addressId], references: [id])
   addressId Int?
 
   status Status?
 
-  user      User? @relation(fields: [userId], references: [id])
-  userId    Int?
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?
 }
 
 model ProductOrder {
@@ -95,9 +95,11 @@ model ProductOrder {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  size   String?
-  colors String[]
-  price Int?
+  size       String?
+  colors     String[]
+  totalPrice Int?
+
+  count Int?
 
   order   Order? @relation(fields: [orderId], references: [id])
   orderId Int?
