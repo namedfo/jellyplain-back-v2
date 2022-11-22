@@ -16,6 +16,9 @@ export class OrderService {
         delivery: body.delivery,
         status: body.status,
         address: { connect: { id: body.address.id } },
+        productsOrder: {
+          create: [body.productsOrder],
+        },
       },
     });
     return order;
