@@ -97,7 +97,7 @@ model ProductOrder {
 
   size       String?
   colors     String[]
-  totalPrice Int?
+  price Int?
 
   count Int?
 
