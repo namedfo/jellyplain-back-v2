@@ -10,7 +10,7 @@ generator client {
 datasource db {
   provider             = "postgresql"
   // url                  = "postgresql://postgres:123@localhost:5432/nestjs?schema=public"
-  url                  = "postgresql://gen_user:nwg4d99so7@5.23.55.233:5432/default_db"
+  url                  = "postgresql://mxxyjievzjbhzf:f69f29089c7911f7eb76d3b0e7532676536eca59ea0180cf8c4632085c44897b@ec2-63-35-156-160.eu-west-1.compute.amazonaws.com:5432/d6c4aearath3c8"
   referentialIntegrity = "prisma"
 }
 
