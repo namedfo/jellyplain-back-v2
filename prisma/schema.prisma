@@ -97,6 +97,7 @@ model ProductOrder {
   size String?
 
   color Color?
+  images String[]
 
   price Int?
 
