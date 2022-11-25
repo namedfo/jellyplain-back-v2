@@ -23,11 +23,7 @@ export class OrderService {
         },
       },
       include: {
-        productsOrder: {
-          include: {
-            color: true,
-          },
-        },
+        productsOrder: true,
       },
     });
     return order;

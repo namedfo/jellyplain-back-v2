@@ -94,10 +94,10 @@ model ProductOrder {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  size  String?
+  size String?
 
-  color Color?
-  colorId   Int
+  color   Color?
+  colorId Int
 
   price Int?
 
@@ -123,7 +123,6 @@ model Comment {
   order   Order? @relation(fields: [orderId], references: [id])
   orderId Int?
 }
-
 
 model Product {
   id        Int      @id @default(autoincrement())
@@ -167,21 +166,27 @@ model Image {
   productChildId Int?
 }
 
-model Color {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  name String @db.Char(100)
-  
-
-  productChild   ProductChild @relation(fields: [productChildId], references: [id])
-  productChildId Int          @unique
-
-  productOrder   ProductOrder @relation(fields: [productOrderId], references: [id])
-  productOrderId Int          @unique
+enum Color {
+  beige
+  white
+  turquoise
+  vinous
+  cyan
+  yellow
+  green
+  brown
+  red
+  mint
+  orange
+  multicoloured
+  pink
+  silver
+  gray
+  blue
+  purple
+  black
 }
-
 
 enum Delivery {
   pochtaru
@@ -200,7 +205,6 @@ enum Roles {
   default
   admin
 }
-
 
 enum Type {
   original
@@ -231,7 +235,6 @@ enum Brand {
   underarmour
   thenorthface
 }
-
 
 enum SizesClothes {
   s
