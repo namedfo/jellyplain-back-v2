@@ -27,7 +27,7 @@ export class OrderService {
         },
       });
       return {
-        id: order?.id
+        id: order?.id,
       };
     } catch (error) {}
   }
