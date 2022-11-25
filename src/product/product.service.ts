@@ -28,7 +28,6 @@ export class ProductService {
           productChilds: {
             include: {
               images: true,
-              color: true,
             },
           },
         },
@@ -40,7 +39,6 @@ export class ProductService {
         productChilds: {
           include: {
             images: true,
-            color: true,
           },
         },
       },
@@ -55,7 +53,6 @@ export class ProductService {
         productChilds: {
           include: {
             images: true,
-            color: true,
           },
         },
       },
