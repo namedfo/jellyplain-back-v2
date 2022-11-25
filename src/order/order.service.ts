@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { query } from 'express';
 //
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -8,34 +9,37 @@ export class OrderService {
 
   async create(body: any) {
     console.log(body);
-    // if (body.isAddress) {
-    // }
 
-    const order = await this.prisma.order.create({
-      data: {
-        totalPrice: body.totalPrice,
-        delivery: body.delivery,
-        status: body.status,
-        // user: { connect: { id: 1 } },
-        // address: { connect: { id: body.address.id } },
-        productsOrder: {
-          create: body.productsOrder,
+    try {
+      const order = await this.prisma.order.create({
+        data: {
+          totalPrice: body.totalPrice,
+          delivery: body.delivery,
+          status: body.status,
+          // user: { connect: { id: 1 } },
+          // address: { connect: { id: body.address.id } },
+          productsOrder: {
+            create: body.productsOrder,
+          },
         },
-      },
-      include: {
-        productsOrder: true,
-      },
-    });
-    return order;
+        include: {
+          productsOrder: true,
+        },
+      });
+      return order?.id;
+    } catch (error) {}
+  }
+
+  async get_one(id: number) {
+    try {
+      return await this.prisma.order.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          productsOrder: true,
+        },
+      });
+    } catch (error) {}
   }
 }
-// "productsOrder": [
-//   {
-//     "size": "31",
-//   "colors": ["he", "go"],
-//   "price": 1000,
-//   }
-// ]
-// totalPrice: 1000,
-//   delivery: "pochtaru",
-//   status: "pending",
