@@ -42,7 +42,7 @@ model Address {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  result String @db.VarChar(250)
+  result String? @db.VarChar(250)
 
   surname String
   name    String
@@ -96,8 +96,7 @@ model ProductOrder {
 
   size String?
 
-  color   Color?
-  colorId Int
+  color Color?
 
   price Int?
 
