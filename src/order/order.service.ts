@@ -16,7 +16,7 @@ export class OrderService {
         totalPrice: body.totalPrice,
         delivery: body.delivery,
         status: body.status,
-        user: { connect: { id: 1 } },
+        // user: { connect: { id: 1 } },
         // address: { connect: { id: body.address.id } },
         productsOrder: {
           create: body.productsOrder,
