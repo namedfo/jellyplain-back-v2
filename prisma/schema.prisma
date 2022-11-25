@@ -22,7 +22,6 @@ model User {
   vkID Int
   role Roles @default(default)
 
-  reviews  Review[]
   comments Comment[]
   orders   Order[]
 
@@ -95,8 +94,8 @@ model ProductOrder {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  size       String?
-  colors     String[]
+  size  String?
+  color String
   price Int?
 
   count Int?
@@ -154,7 +153,6 @@ model Product {
   productsOrder ProductOrder[]
 
   productChilds ProductChild[]
-  reviews       Review[]
 
   title String
   price Int
@@ -168,7 +166,7 @@ model ProductChild {
   sizesClothes  SizesClothes[]
   sizesSneakers SizesSneakers[]
 
-  colors Color[]
+  color Color?
 
   product   Product? @relation(fields: [productId], references: [id])
   productId Int?
@@ -181,21 +179,6 @@ model Image {
 
   productChild   ProductChild? @relation(fields: [productChildId], references: [id])
   productChildId Int?
-}
-
-model Review {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  rating Int
-  text   String @db.Char(10000)
-
-  product   Product? @relation(fields: [productId], references: [id])
-  productId Int?
-
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?
 }
 
 enum Type {
@@ -233,10 +216,10 @@ model Color {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  hex String @db.Char(50)
+  name String @db.Char(100)
 
-  productChild   ProductChild? @relation(fields: [productChildId], references: [id])
-  productChildId Int?
+  productChild   ProductChild @relation(fields: [productChildId], references: [id])
+  productChildId Int          @unique
 }
 
 enum SizesClothes {
