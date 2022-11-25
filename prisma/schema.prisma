@@ -95,7 +95,10 @@ model ProductOrder {
   updatedAt DateTime @updatedAt
 
   size  String?
-  color String
+
+  color Color?
+  colorId   Int
+
   price Int?
 
   count Int?
@@ -121,23 +124,6 @@ model Comment {
   orderId Int?
 }
 
-enum Delivery {
-  pochtaru
-  pickup
-}
-
-enum Status {
-  pending
-  paid
-  confirmed
-  sent
-  complected
-}
-
-enum Roles {
-  default
-  admin
-}
 
 model Product {
   id        Int      @id @default(autoincrement())
@@ -181,6 +167,41 @@ model Image {
   productChildId Int?
 }
 
+model Color {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String @db.Char(100)
+  
+
+  productChild   ProductChild @relation(fields: [productChildId], references: [id])
+  productChildId Int          @unique
+
+  productOrder   ProductOrder @relation(fields: [productOrderId], references: [id])
+  productOrderId Int          @unique
+}
+
+
+enum Delivery {
+  pochtaru
+  pickup
+}
+
+enum Status {
+  pending
+  paid
+  confirmed
+  sent
+  complected
+}
+
+enum Roles {
+  default
+  admin
+}
+
+
 enum Type {
   original
   replica
@@ -211,16 +232,6 @@ enum Brand {
   thenorthface
 }
 
-model Color {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  name String @db.Char(100)
-
-  productChild   ProductChild @relation(fields: [productChildId], references: [id])
-  productChildId Int          @unique
-}
 
 enum SizesClothes {
   s
