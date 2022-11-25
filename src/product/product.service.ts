@@ -30,7 +30,6 @@ export class ProductService {
               images: true,
             },
           },
-          reviews: true,
         },
       });
     }
@@ -42,7 +41,6 @@ export class ProductService {
             images: true,
           },
         },
-        reviews: true,
       },
     });
   }
@@ -57,7 +55,6 @@ export class ProductService {
             images: true,
           },
         },
-        reviews: true,
       },
     });
   }
