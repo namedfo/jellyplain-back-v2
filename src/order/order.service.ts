@@ -26,7 +26,9 @@ export class OrderService {
           productsOrder: true,
         },
       });
-      return order?.id;
+      return {
+        id: order?.id
+      };
     } catch (error) {}
   }
 
