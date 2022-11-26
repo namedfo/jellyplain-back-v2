@@ -13,9 +13,9 @@ export class ProductController {
     return await this.productService.create(dto);
   }
 
-  @Get('getAll')
-  async get_all(@Query() query: any) {
-    return await this.productService.get_all(query);
+  @Post('getAll')
+  async get_all(@Body() body: any) {
+    return await this.productService.get_all(body);
   }
 
   @Get('getOne')

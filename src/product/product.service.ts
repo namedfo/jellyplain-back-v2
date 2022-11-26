@@ -18,25 +18,35 @@ export class ProductService {
     return 'hi';
   }
 
-  async get_all(query: any): Promise<any> {
-    console.log(query);
+  async get_all(body: any): Promise<any> {
+    console.log(body);
     return await this.prisma.product.findMany({
       where: {
-        category: query?.category,
-        subcategory: query?.subcategory,
+        category: body?.category,
+        subcategory: body?.subcategory,
         price: {
           // gte: min price
           // lte max price
-          gte: Number(query?.minPrice) || 0,
-          lte: Number(query?.maxPrice) || 9999,
+          gte: Number(body?.minPrice) || 0,
+          lte: Number(body?.maxPrice) || 9999,
         },
-        brand: query?.brand,
-        type: query?.type,
+        brand: { in: body?.brands },
+        type: body?.type,
         productChilds: {
           some: {
             color: {
-              in: query?.colors,
+              in: body?.colors,
             },
+            sizesSneakers: body?.sizesSneakers
+              ? {
+                  hasSome: body?.sizesSneakers,
+                }
+              : undefined,
+            sizesClothes: body?.sizesClothes
+              ? {
+                  hasSome: body?.sizesClothes,
+                }
+              : undefined,
           },
         },
       },
