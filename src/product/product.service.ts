@@ -19,22 +19,30 @@ export class ProductService {
   }
 
   async get_all(query: any): Promise<any> {
-    if (query.category) {
-      return await this.prisma.product.findMany({
-        where: {
-          category: query.category,
+    console.log(query);
+    return await this.prisma.product.findMany({
+      where: {
+        category: query.category,
+        subcategory: query.subcategory,
+        price: {
+          // gte: min price
+          // lte max price
+          gte: Number(query.minPrice) || 0,
+          lte: Number(query.maxPrice) || 9999,
         },
-        include: {
-          productChilds: {
-            include: {
-              images: true,
+        brand: query.brand,
+        type: query.type,
+        productChilds: {
+          some: {
+            color: {
+              in: query.colors,
             },
           },
         },
-      });
-    }
-
-    return await this.prisma.product.findMany({
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
       include: {
         productChilds: {
           include: {
@@ -43,6 +51,19 @@ export class ProductService {
         },
       },
     });
+
+    // return await this.prisma.product.findMany({
+    //   include: {
+    //     productChilds: {
+    //       include: {
+    //         images: true,
+    //       },
+    //     },
+    //   },
+    //   orderBy: {
+    //     createdAt: 'desc',
+    //   },
+    // });
   }
   async get_one(query: any) {
     return await this.prisma.product.findUnique({
