@@ -40,6 +40,7 @@ export class OrderService {
         },
         include: {
           productsOrder: true,
+          product: true
         },
       });
     } catch (error) {}
