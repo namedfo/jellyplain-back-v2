@@ -39,8 +39,11 @@ export class OrderService {
           id,
         },
         include: {
-          productsOrder: true,
-          product: true
+          productsOrder: {
+            include: {
+              product: true,
+            },
+          },
         },
       });
     } catch (error) {}
