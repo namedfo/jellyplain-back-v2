@@ -22,20 +22,20 @@ export class ProductService {
     console.log(query);
     return await this.prisma.product.findMany({
       where: {
-        category: query.category,
-        subcategory: query.subcategory,
+        category: query?.category,
+        subcategory: query?.subcategory,
         price: {
           // gte: min price
           // lte max price
-          gte: Number(query.minPrice) || 0,
-          lte: Number(query.maxPrice) || 9999,
+          gte: Number(query?.minPrice) || 0,
+          lte: Number(query?.maxPrice) || 9999,
         },
-        brand: query.brand,
-        type: query.type,
+        brand: query?.brand,
+        type: query?.type,
         productChilds: {
           some: {
             color: {
-              in: query.colors,
+              in: query?.colors,
             },
           },
         },

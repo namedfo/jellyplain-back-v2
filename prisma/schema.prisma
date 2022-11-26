@@ -224,6 +224,7 @@ enum SubCategory {
   basketball
 
   shorts
+  shirts
   pants
   jackets
   hoodies
