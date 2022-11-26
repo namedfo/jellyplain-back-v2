@@ -46,8 +46,10 @@ export class AuthService {
   }
 
   async vk(code: string) {
+    console.log(code);
     const getTokenAndUserId = await this.getVkToken(code);
 
+    console.log(getTokenAndUserId);
     const vkUserData: any = await this.getUserDataFromVk(
       getTokenAndUserId.user_id,
       getTokenAndUserId.access_token,
@@ -76,13 +78,14 @@ export class AuthService {
       };
     }
 
+    console.log(vkUserData);
     if (vkUserData.id && !_user) {
       const newUser = await this.prisma.user.create({
         data: {
           vkID: vkUserData.id,
           first_name: vkUserData.first_name,
           last_name: vkUserData.last_name,
-          avatar_url: vkUserData.image,
+          avatar_url: vkUserData.photo_200,
           bdate: vkUserData.bdate,
         },
         include: {
@@ -107,7 +110,6 @@ export class AuthService {
     const token: any = await this.http.axiosRef.get(
       `https://oauth.vk.com/access_token?client_id=51473574&client_secret=eyukYXPWuEzwSvYkKM5x&redirect_uri=https://jellyplain-main.vercel.app/redirect&code=${code}`,
     );
-
     return token?.data;
   }
 
