@@ -54,32 +54,52 @@ export class OrderService {
   }
 
   async buy(body: any) {
-    return this.http
-      .post(
-        'https://api.yookassa.ru/v3/payments',
-        {
-          amount: {
-            value: `${body?.price}.00`,
-            currency: 'RUB',
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id: body?.order?.id,
+      },
+    });
+
+    if (order) {
+      return this.http
+        .post(
+          'https://api.yookassa.ru/v3/payments',
+          {
+            amount: {
+              value: `${order?.totalPrice}.00`,
+              currency: 'RUB',
+            },
+            capture: true,
+            confirmation: {
+              type: 'redirect',
+              return_url: `https://jellyplain-main.vercel.app/order/${order?.id}`,
+            },
+            description: `${order?.id}`,
           },
-          capture: true,
-          confirmation: {
-            type: 'redirect',
-            return_url: `http://localhost:3000/order/${body?.order?.id}`,
+          {
+            headers: {
+              'Idempotence-Key': Math.ceil(Math.random() * 1000),
+              'Content-Type': 'application/json',
+            },
+            auth: {
+              username: '959763',
+              password: 'test_QBY07j0SMDgiGT-JMxF_0UZgNbFRtBFL53rwWs7ZhzQ',
+            },
           },
-          description: `${body?.order?.id}`,
-        },
-        {
-          headers: {
-            'Idempotence-Key': Math.ceil(Math.random() * 1000),
-            'Content-Type': 'application/json',
-          },
-          auth: {
-            username: '959763',
-            password: 'test_QBY07j0SMDgiGT-JMxF_0UZgNbFRtBFL53rwWs7ZhzQ',
-          },
-        },
-      )
-      .pipe(map((res) => res.data));
+        )
+        .pipe(
+          map(async (res) => {
+            await this.prisma.order.update({
+              where: {
+                id: body?.id?.order,
+              },
+              data: {
+                yookassaId: res?.data?.id,
+              },
+            });
+            return res.data;
+          }),
+        );
+    }
   }
 }
