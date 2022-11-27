@@ -89,14 +89,16 @@ export class OrderService {
         )
         .pipe(
           map(async (res) => {
-            await this.prisma.order.update({
-              where: {
-                id: order.id,
-              },
-              data: {
-                yookassaId: res?.data?.id,
-              },
-            });
+            if (!order.yookassaId) {
+              await this.prisma.order.update({
+                where: {
+                  id: order.id,
+                },
+                data: {
+                  yookassaId: res?.data?.id,
+                },
+              });
+            }
             return res.data;
           }),
         );
