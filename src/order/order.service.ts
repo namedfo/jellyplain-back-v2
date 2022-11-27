@@ -91,7 +91,7 @@ export class OrderService {
           map(async (res) => {
             await this.prisma.order.update({
               where: {
-                id: body?.id?.order,
+                id: order.id,
               },
               data: {
                 yookassaId: res?.data?.id,
