@@ -14,4 +14,9 @@ export class OrderController {
   async get_one(@Query() query: any) {
     return await this.orderService.get_one(Number(query?.id));
   }
+
+  @Post('buy')
+  async buy(@Body() body: any) {
+    return await this.orderService.buy(body);
+  }
 }
