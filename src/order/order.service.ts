@@ -38,7 +38,7 @@ export class OrderService {
 
   async get_one(id: number) {
     try {
-      return await this.prisma.order.findUnique({
+      const order = await this.prisma.order.findUnique({
         where: {
           id,
         },
@@ -51,6 +51,37 @@ export class OrderService {
           yookassa: true,
         },
       });
+
+      if (order?.yookassa && order?.status === 'pending') {
+        const res = await this.http.axiosRef.get(
+          `https://api.yookassa.ru/v3/payments/${order?.yookassa?.yookassaId}`,
+          {
+            auth: {
+              username: '959763',
+              password: 'test_QBY07j0SMDgiGT-JMxF_0UZgNbFRtBFL53rwWs7ZhzQ',
+            },
+          },
+        );
+        console.log(res.data);
+        if (res?.data?.status === 'succeeded') {
+          await this.prisma.order.update({
+            where: {
+              id: order?.id,
+            },
+            data: {
+              status: 'paid',
+              yookassa: {
+                update: {
+                  paid: true,
+                  payment_method: res.data?.payment_method?.type,
+                },
+              },
+            },
+          });
+        }
+      }
+
+      return order;
     } catch (error) {}
   }
 
