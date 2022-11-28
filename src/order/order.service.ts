@@ -88,14 +88,18 @@ export class OrderService {
           },
         )
         .pipe(
-          map(async (res) => {
-            if (!order.yookassaId) {
-              await this.prisma.order.update({
-                where: {
-                  id: order.id,
-                },
+          map(async (res: any) => {
+            if (true) {
+              await this.prisma.yookassa.create({
                 data: {
-                  yookassaId: res?.data?.id,
+                  yookassaId: res.data.id,
+                  status: res.data.status,
+                  paid: res.data.paid,
+                  amount: res.data.amount.value,
+                  payment_method: res.data.payment_method.type,
+                  account_id: res.data.recipient.account_id,
+                  gateway_id: res.data.recipient.gateway_id,
+                  order: { connect: { id: order?.id } },
                 },
               });
             }

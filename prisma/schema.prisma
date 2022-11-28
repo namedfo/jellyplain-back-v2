@@ -69,7 +69,7 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  yookassaId String?
+  yookassa Yookassa?
 
   productsOrder ProductOrder[]
 
@@ -89,6 +89,27 @@ model Order {
   userId Int?
 }
 
+model Yookassa {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  yookassaId String? @unique
+
+  status String?
+  paid   Boolean?
+
+  amount String?
+
+  payment_method String?
+
+  account_id String?
+  gateway_id String?
+
+  order   Order? @relation(fields: [orderId], references: [id])
+  orderId Int?   @unique
+}
+
 model ProductOrder {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -96,7 +117,7 @@ model ProductOrder {
 
   size String?
 
-  color Color?
+  color  Color?
   images String[]
 
   price Int?
@@ -165,7 +186,6 @@ model Image {
   productChild   ProductChild? @relation(fields: [productChildId], references: [id])
   productChildId Int?
 }
-
 
 enum Color {
   beige
