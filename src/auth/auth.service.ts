@@ -46,10 +46,9 @@ export class AuthService {
   }
 
   async vk(code: string) {
-    console.log(code);
     const getTokenAndUserId = await this.getVkToken(code);
 
-    console.log(getTokenAndUserId);
+
     const vkUserData: any = await this.getUserDataFromVk(
       getTokenAndUserId.user_id,
       getTokenAndUserId.access_token,
@@ -78,7 +77,6 @@ export class AuthService {
       };
     }
 
-    console.log(vkUserData);
     if (vkUserData.id && !_user) {
       const newUser = await this.prisma.user.create({
         data: {

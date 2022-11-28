@@ -48,6 +48,7 @@ export class OrderService {
               product: true,
             },
           },
+          yookassa: true
         },
       });
     } catch (error) {}
@@ -93,17 +94,14 @@ export class OrderService {
               await this.prisma.yookassa.create({
                 data: {
                   yookassaId: res.data.id,
-                  status: res.data.status,
                   paid: res.data.paid,
-                  amount: res.data.amount.value,
-                  payment_method: res.data.payment_method.type,
                   account_id: res.data.recipient.account_id,
                   gateway_id: res.data.recipient.gateway_id,
                   order: { connect: { id: order?.id } },
                 },
               });
+              return res?.data?.confirmation?.confirmation_url
             }
-            return res.data;
           }),
         );
     }

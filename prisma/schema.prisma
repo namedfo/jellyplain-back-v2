@@ -96,10 +96,7 @@ model Yookassa {
 
   yookassaId String? @unique
 
-  status String?
   paid   Boolean?
-
-  amount String?
 
   payment_method String?
 
