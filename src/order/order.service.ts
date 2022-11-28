@@ -48,7 +48,7 @@ export class OrderService {
               product: true,
             },
           },
-          yookassa: true
+          yookassa: true,
         },
       });
     } catch (error) {}
@@ -58,6 +58,9 @@ export class OrderService {
     const order = await this.prisma.order.findUnique({
       where: {
         id: body?.order?.id,
+      },
+      include: {
+        yookassa: true,
       },
     });
 
@@ -90,7 +93,7 @@ export class OrderService {
         )
         .pipe(
           map(async (res: any) => {
-            if (true) {
+            if (!order?.yookassa) {
               await this.prisma.yookassa.create({
                 data: {
                   yookassaId: res.data.id,
@@ -100,8 +103,8 @@ export class OrderService {
                   order: { connect: { id: order?.id } },
                 },
               });
-              return res?.data?.confirmation?.confirmation_url
             }
+            return res?.data?.confirmation?.confirmation_url;
           }),
         );
     }
