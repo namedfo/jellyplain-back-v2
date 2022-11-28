@@ -78,6 +78,11 @@ export class OrderService {
               },
             },
           });
+        } else {
+          return {
+            order,
+            confirmation_url: res?.data?.confirmation?.confirmation_url,
+          };
         }
       }
 
