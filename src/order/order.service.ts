@@ -25,6 +25,9 @@ export class OrderService {
           productsOrder: {
             create: body.productsOrder,
           },
+          yookassa: {
+            create: {},
+          },
         },
         include: {
           productsOrder: true,
@@ -52,7 +55,7 @@ export class OrderService {
         },
       });
 
-      if (order?.yookassa && order?.status === 'pending') {
+      if (order?.yookassa?.yookassaId && order?.status === 'pending') {
         const res = await this.http.axiosRef.get(
           `https://api.yookassa.ru/v3/payments/${order?.yookassa?.yookassaId}`,
           {
@@ -62,7 +65,7 @@ export class OrderService {
             },
           },
         );
-        console.log(res.data);
+
         if (res?.data?.status === 'succeeded') {
           await this.prisma.order.update({
             where: {
@@ -79,6 +82,7 @@ export class OrderService {
             },
           });
         } else {
+          console.log(res?.data);
           return {
             order,
             confirmation_url: res?.data?.confirmation?.confirmation_url,
@@ -86,7 +90,10 @@ export class OrderService {
         }
       }
 
-      return order;
+      return {
+        order,
+        confirmation_url: null,
+      };
     } catch (error) {}
   }
 
@@ -130,13 +137,15 @@ export class OrderService {
         .pipe(
           map(async (res: any) => {
             if (!order?.yookassa) {
-              await this.prisma.yookassa.create({
+              await this.prisma.yookassa.update({
+                where: {
+                  id: order.yookassa?.id,
+                },
                 data: {
                   yookassaId: res.data.id,
                   paid: res.data.paid,
                   account_id: res.data.recipient.account_id,
                   gateway_id: res.data.recipient.gateway_id,
-                  order: { connect: { id: order?.id } },
                 },
               });
             }
