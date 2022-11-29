@@ -135,7 +135,7 @@ export class OrderService {
         )
         .pipe(
           map(async (res: any) => {
-            if (!order?.yookassa) {
+            if (!order?.yookassa?.yookassaId) {
               await this.prisma.yookassa.update({
                 where: {
                   id: order.yookassa?.id,
