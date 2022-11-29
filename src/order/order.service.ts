@@ -67,20 +67,31 @@ export class OrderService {
         );
 
         if (res?.data?.status === 'succeeded') {
-          await this.prisma.order.update({
-            where: {
-              id: order?.id,
-            },
-            data: {
-              status: 'paid',
-              yookassa: {
-                update: {
-                  paid: true,
-                  payment_method: res.data?.payment_method?.type,
+          return {
+            order: await this.prisma.order.update({
+              where: {
+                id: order?.id,
+              },
+              data: {
+                status: 'paid',
+                yookassa: {
+                  update: {
+                    paid: true,
+                    payment_method: res.data?.payment_method?.type,
+                  },
                 },
               },
-            },
-          });
+              include: {
+                productsOrder: {
+                  include: {
+                    product: true,
+                  },
+                },
+                yookassa: true,
+              },
+            }),
+            confirmation_url: false,
+          };
         } else {
           return {
             order,
