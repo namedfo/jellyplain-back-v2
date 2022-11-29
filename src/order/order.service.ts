@@ -82,7 +82,6 @@ export class OrderService {
             },
           });
         } else {
-          console.log(res?.data);
           return {
             order,
             confirmation_url: res?.data?.confirmation?.confirmation_url,
@@ -92,7 +91,7 @@ export class OrderService {
 
       return {
         order,
-        confirmation_url: null,
+        confirmation_url: false,
       };
     } catch (error) {}
   }
