@@ -3,24 +3,24 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { map } from 'rxjs';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     private readonly prisma: PrismaService,
+    // private readonly authService: AuthService,
     private readonly http: HttpService,
   ) {}
 
-  async create(body: any) {
-    console.log(body);
-
+  async create(body: any, userId: number) {
     try {
       const order = await this.prisma.order.create({
         data: {
           totalPrice: body.totalPrice,
           delivery: body.delivery,
           status: body.status,
-          // user: { connect: { id: 1 } },
+          user: { connect: { id: userId } },
           // address: { connect: { id: body.address.id } },
           productsOrder: {
             create: body.productsOrder,

@@ -18,6 +18,10 @@ export class AuthService {
       where: {
         id: payload.id,
       },
+      include: {
+        address: true,
+        orders: true,
+      },
     });
   }
 
@@ -128,7 +132,7 @@ export class AuthService {
   // }
 
   async vkontakte(user: any) {
-    console.log(user)
+    console.log(user);
     try {
       const userUpsert = await this.prisma.user.upsert({
         where: {
@@ -155,7 +159,7 @@ export class AuthService {
   }
 
   async google(user: any) {
-    console.log(user)
+    console.log(user);
     try {
       const userUpsert = await this.prisma.user.upsert({
         where: {

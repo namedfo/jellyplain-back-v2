@@ -21,7 +21,8 @@ export class AuthController {
   @Get('me')
   @UseGuards(AuthGuard('jwt')) // ,RolesGuard
   // @Roles('admin')
-  async one(@Headers() head: any) {
+  async one(@Req() req: any, @Headers() head: any) {
+    // console.log(req)
     const token = head.authorization.split(' ')[1];
     return await this.authService.findUser(token);
   }
@@ -43,6 +44,7 @@ export class AuthController {
   @UseGuards(AuthGuard('vkontakte'))
   async vkontakteRedirect(@Req() req: any, @Res() res: any) {
     const token = await this.authService.vkontakte(req?.user?.profile);
+    // console.log(token)
     return res.redirect(
       `https://jellyplain-main.vercel.app/auth?token=${token}`,
     );
