@@ -5,7 +5,10 @@ import { Strategy, Profile, VerifyCallback } from 'passport-vkontakte';
 // import { HelperService } from '../../helper/helper.service';
 
 @Injectable()
-export class VKStrategy extends PassportStrategy(Strategy, 'vkontakte') {
+export class VKAdminStrategy extends PassportStrategy(
+  Strategy,
+  'vkontakte-admin',
+) {
   constructor() {
     super(
       {

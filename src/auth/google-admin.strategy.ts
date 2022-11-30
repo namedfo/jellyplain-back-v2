@@ -7,7 +7,10 @@ import { Injectable } from '@nestjs/common';
 // config();
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy) {
+export class GoogleAdminStrategy extends PassportStrategy(
+  Strategy,
+  'google-admin',
+) {
   constructor() {
     super({
       clientID:
