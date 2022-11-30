@@ -128,6 +128,7 @@ export class AuthService {
   // }
 
   async vkontakte(user: any) {
+    console.log(user)
     try {
       const userUpsert = await this.prisma.user.upsert({
         where: {
@@ -154,14 +155,15 @@ export class AuthService {
   }
 
   async google(user: any) {
+    console.log(user)
     try {
       const userUpsert = await this.prisma.user.upsert({
         where: {
           cusId: user.email,
         },
         update: {
-          first_name: user.first_name,
-          last_name: user.last_name,
+          first_name: user.firstName,
+          last_name: user.lastName,
           avatar_url: user.picture,
         },
         create: {
