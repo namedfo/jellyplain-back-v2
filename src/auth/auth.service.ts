@@ -20,7 +20,11 @@ export class AuthService {
       },
       include: {
         address: true,
-        orders: true,
+        orders: {
+          include: {
+            yookassa: true,
+          },
+        },
       },
     });
   }
@@ -33,7 +37,11 @@ export class AuthService {
       },
       include: {
         address: true,
-        orders: true,
+        orders: {
+          include: {
+            yookassa: true,
+          },
+        },
       },
     });
 
@@ -49,90 +57,7 @@ export class AuthService {
     };
   }
 
-  // async vk(code: string) {
-  //   const getTokenAndUserId = await this.getVkToken(code);
-
-  //   const vkUserData: any = await this.getUserDataFromVk(
-  //     getTokenAndUserId.user_id,
-  //     getTokenAndUserId.access_token,
-  //   );
-
-  //   const _user = await this.prisma.user.findUnique({
-  //     where: {
-  //       cusId: vkUserData?.id,
-  //     },
-  //     include: {
-  //       orders: true,
-  //       address: true,
-  //     },
-  //   });
-
-  //   if (_user) {
-  //     return {
-  //       id: _user.id,
-  //       orders: _user.orders,
-  //       address: _user.address,
-  //       createdAt: _user.createdAt,
-  //       first_name: _user.first_name,
-  //       last_name: _user.last_name,
-  //       avatar_url: _user.avatar_url,
-  //       token: this.jwtService.sign({ id: _user.id }),
-  //     };
-  //   }
-
-  //   if (vkUserData.id && !_user) {
-  //     const newUser = await this.prisma.user.create({
-  //       data: {
-  //         cusId: vkUserData.id,
-  //         first_name: vkUserData.first_name,
-  //         last_name: vkUserData.last_name,
-  //         avatar_url: vkUserData.photo_200,
-  //         bdate: vkUserData.bdate,
-  //       },
-  //       include: {
-  //         orders: true,
-  //         address: true,
-  //       },
-  //     });
-  //     return {
-  //       id: newUser.id,
-  //       orders: newUser.orders,
-  //       address: newUser.address,
-  //       createdAt: newUser.createdAt,
-  //       first_name: newUser.first_name,
-  //       last_name: newUser.last_name,
-  //       avatar_url: newUser.avatar_url,
-  //       token: this.jwtService.sign({ id: newUser.id }),
-  //     };
-  //   }
-  // }
-
-  // async getVkToken(code: string) {
-  //   const token: any = await this.http.axiosRef.get(
-  //     `https://oauth.vk.com/access_token?client_id=51473574&client_secret=eyukYXPWuEzwSvYkKM5x&redirect_uri=https://jellyplain-main.vercel.app/redirect&code=${code}`,
-  //   );
-  //   return token?.data;
-  // }
-
-  // async getUserDataFromVk(userId: number, token: string) {
-  //   const data: any = await this.http.axiosRef.get(
-  //     `https://api.vk.com/method/users.get?user_ids=${userId}&fields=photo_200,bdate&access_token=${token}&v=5.131`,
-  //   );
-
-  //   // if (data?.data?.response[0]) {
-  //   return {
-  //     id: data?.data?.response[0].id,
-  //     bdate: data?.data?.response[0].bdate,
-  //     photo_200: data?.data?.response[0].photo_200,
-  //     first_name: data?.data?.response[0].first_name,
-  //     last_name: data?.data?.response[0].last_name,
-  //     can_access_closed: data?.data?.response[0].can_access_closed,
-  //     is_closed: data?.data?.response[0].is_closed,
-  //   };
-  // }
-
   async vkontakte(user: any) {
-    console.log(user);
     try {
       const userUpsert = await this.prisma.user.upsert({
         where: {
@@ -148,10 +73,6 @@ export class AuthService {
           first_name: user?.name?.givenName,
           last_name: user?.name?.familyName,
           avatar_url: user?.photos[0]?.value,
-        },
-        include: {
-          orders: true,
-          address: true,
         },
       });
       return this.jwtService.sign({ id: userUpsert.id });
@@ -159,7 +80,6 @@ export class AuthService {
   }
 
   async google(user: any) {
-    console.log(user);
     try {
       const userUpsert = await this.prisma.user.upsert({
         where: {
@@ -175,10 +95,6 @@ export class AuthService {
           first_name: user.firstName,
           last_name: user.lastName,
           avatar_url: user.picture,
-        },
-        include: {
-          orders: true,
-          address: true,
         },
       });
       return this.jwtService.sign({ id: userUpsert.id });
