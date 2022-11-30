@@ -33,7 +33,6 @@ export class AuthController {
   @UseGuards(AuthGuard('vkontakte'))
   async vkontakteRedirect(@Req() req: any, @Res() res: any) {
     const token = await this.authService.vkontakte(req?.user?.profile);
-    console.log(token)
     return res.redirect(
       `https://jellyplain-main.vercel.app/auth?token=${token}`,
     );
