@@ -61,4 +61,33 @@ export class AuthController {
       `https://jellyplain-main.vercel.app/auth?token=${token}`,
     );
   }
+
+  //
+  @Get('login/vkontakte-admin')
+  @UseGuards(AuthGuard('vkontakte'))
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async vkontakteAdmin() {}
+
+  @Get('login/vkontakte-admin/redirect')
+  @UseGuards(AuthGuard('vkontakte'))
+  async vkontakteAdminRedirect(@Req() req: any, @Res() res: any) {
+    const token = await this.authService.vkontakte(req?.user?.profile);
+    return res.redirect(
+      `https://jellyplain-admin.vercel.app/auth?token=${token}`,
+    );
+  }
+
+  @Get('login/google-admin')
+  @UseGuards(AuthGuard('google'))
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async googleAdmin() {}
+
+  @Get('login/google-admin/redirect')
+  @UseGuards(AuthGuard('google'))
+  async googleAdminRedirect(@Req() req: any, @Res() res: any) {
+    const token = await this.authService.google(req?.user);
+    return res.redirect(
+      `https://jellyplain-admin.vercel.app/auth?token=${token}`,
+    );
+  }
 }
