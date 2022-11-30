@@ -64,12 +64,12 @@ export class AuthController {
 
   //
   @Get('login/vkontakte-admin')
-  @UseGuards(AuthGuard('vkontakte'))
+  @UseGuards(AuthGuard('vkontakte-admin'))
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async vkontakteAdmin() {}
 
   @Get('login/vkontakte-admin/redirect')
-  @UseGuards(AuthGuard('vkontakte'))
+  @UseGuards(AuthGuard('vkontakte-admin'))
   async vkontakteAdminRedirect(@Req() req: any, @Res() res: any) {
     const token = await this.authService.vkontakte(req?.user?.profile);
     return res.redirect(
@@ -78,12 +78,12 @@ export class AuthController {
   }
 
   @Get('login/google-admin')
-  @UseGuards(AuthGuard('google'))
+  @UseGuards(AuthGuard('google-admin'))
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async googleAdmin() {}
 
   @Get('login/google-admin/redirect')
-  @UseGuards(AuthGuard('google'))
+  @UseGuards(AuthGuard('google-admin'))
   async googleAdminRedirect(@Req() req: any, @Res() res: any) {
     const token = await this.authService.google(req?.user);
     return res.redirect(
