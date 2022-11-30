@@ -19,7 +19,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  vkID Int
+  cusId String
+
   role Roles @default(default)
 
   comments Comment[]
@@ -29,12 +30,12 @@ model User {
 
   phone_number Int?
 
-  bdate      String
-  first_name String
-  last_name  String
-  avatar_url String @db.VarChar(1000)
+  bdate      String?
+  first_name String?
+  last_name  String?
+  avatar_url String? @db.VarChar(1000)
 
-  @@unique([vkID])
+  @@unique([cusId])
 }
 
 model Address {
@@ -96,7 +97,7 @@ model Yookassa {
 
   yookassaId String? @unique
 
-  paid   Boolean?
+  paid Boolean?
 
   payment_method String?
 
