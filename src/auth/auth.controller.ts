@@ -9,6 +9,8 @@ import {
   Res,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/roles.decorator';
+import { RolesGuard } from 'src/roles.guard';
 
 import { AuthService } from './auth.service';
 
@@ -20,6 +22,14 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt')) // ,RolesGuard
   // @Roles('admin')
   async one(@Headers() head: any) {
+    const token = head.authorization.split(' ')[1];
+    return await this.authService.findUser(token);
+  }
+
+  @Get('meAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
+  async meAdmin(@Headers() head: any) {
     const token = head.authorization.split(' ')[1];
     return await this.authService.findUser(token);
   }
