@@ -11,6 +11,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'https://jellyplain-main.vercel.app',
+      'https://jellyplain-admin.vercel.app',
       'http://5.23.48.96:3333',
     ],
     methods: ['GET', 'POST'],
