@@ -1,5 +1,7 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/roles.decorator';
+import { RolesGuard } from 'src/roles.guard';
 //
 import { ProductService } from './product.service';
 
@@ -7,8 +9,9 @@ import { ProductService } from './product.service';
 export class ProductController {
   constructor(private productService: ProductService) {}
 
-  @UseGuards(AuthGuard('jwt'))
   @Post('createOne')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   async create(@Body() dto: any) {
     return await this.productService.create(dto);
   }

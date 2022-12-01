@@ -20,11 +20,13 @@ export class OrderController {
     return await this.orderService.create(body, req?.user?.id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('getOne')
-  async get_one(@Query() query: any) {
-    return await this.orderService.get_one(Number(query?.id));
+  async get_one(@Query() query: any, @Req() req: any) {
+    return await this.orderService.get_one(Number(query?.id), req?.user?.id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('buy')
   async buy(@Body() body: any) {
     return await this.orderService.buy(body);

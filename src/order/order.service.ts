@@ -4,6 +4,7 @@ import { HttpService } from '@nestjs/axios';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { map } from 'rxjs';
 import { AuthService } from 'src/auth/auth.service';
+import { throws } from 'assert';
 
 @Injectable()
 export class OrderService {
@@ -39,71 +40,87 @@ export class OrderService {
     } catch (error) {}
   }
 
-  async get_one(id: number) {
+  async get_one(id: number, userId: number) {
     try {
-      const order = await this.prisma.order.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: {
-          id,
+          id: userId,
         },
         include: {
-          productsOrder: {
-            include: {
-              product: true,
-            },
-          },
-          yookassa: true,
+          orders: true,
         },
       });
 
-      if (order?.yookassa?.yookassaId && order?.status === 'pending') {
-        const res = await this.http.axiosRef.get(
-          `https://api.yookassa.ru/v3/payments/${order?.yookassa?.yookassaId}`,
-          {
-            auth: {
-              username: '959763',
-              password: 'test_QBY07j0SMDgiGT-JMxF_0UZgNbFRtBFL53rwWs7ZhzQ',
-            },
+      if (user?.orders?.some((order: any) => order?.id === id)) {
+        const order = await this.prisma.order.findUnique({
+          where: {
+            id,
           },
-        );
-
-        if (res?.data?.status === 'succeeded') {
-          return {
-            order: await this.prisma.order.update({
-              where: {
-                id: order?.id,
-              },
-              data: {
-                status: 'paid',
-                yookassa: {
-                  update: {
-                    paid: true,
-                    payment_method: res.data?.payment_method?.type,
-                  },
-                },
-              },
+          include: {
+            productsOrder: {
               include: {
-                productsOrder: {
-                  include: {
-                    product: true,
+                product: true,
+              },
+            },
+            yookassa: true,
+          },
+        });
+
+        if (order?.yookassa?.yookassaId && order?.status === 'pending') {
+          const res = await this.http.axiosRef.get(
+            `https://api.yookassa.ru/v3/payments/${order?.yookassa?.yookassaId}`,
+            {
+              auth: {
+                username: '959763',
+                password: 'test_QBY07j0SMDgiGT-JMxF_0UZgNbFRtBFL53rwWs7ZhzQ',
+              },
+            },
+          );
+
+          if (res?.data?.status === 'succeeded') {
+            return {
+              order: await this.prisma.order.update({
+                where: {
+                  id: order?.id,
+                },
+                data: {
+                  status: 'paid',
+                  yookassa: {
+                    update: {
+                      paid: true,
+                      payment_method: res.data?.payment_method?.type,
+                    },
                   },
                 },
-                yookassa: true,
-              },
-            }),
-            confirmation_url: false,
-          };
-        } else {
-          return {
-            order,
-            confirmation_url: res?.data?.confirmation?.confirmation_url,
-          };
+                include: {
+                  productsOrder: {
+                    include: {
+                      product: true,
+                    },
+                  },
+                  yookassa: true,
+                },
+              }),
+              confirmation_url: false,
+            };
+          } else {
+            return {
+              order,
+              confirmation_url: res?.data?.confirmation?.confirmation_url,
+            };
+          }
         }
-      }
 
-      return {
-        order,
-        confirmation_url: false,
-      };
+        return {
+          order,
+          confirmation_url: false,
+        };
+      } else {
+        return {
+          order: null,
+          confirmation_url: false,
+        };
+      }
     } catch (error) {}
   }
 
