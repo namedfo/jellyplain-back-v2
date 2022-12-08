@@ -17,7 +17,7 @@ export class GoogleAdminStrategy extends PassportStrategy(
         '1084904286708-7r6fmqc93ge4gi2gor2ubscjas6djgoc.apps.googleusercontent.com',
       clientSecret: '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',
       callbackURL:
-        'https://jellyplainv2.herokuapp.com/auth/login/google-admin/redirect',
+        'https://jellyplain-back.onrender.com/auth/login/google-admin/redirect',
       scope: ['email', 'profile'],
     });
   }

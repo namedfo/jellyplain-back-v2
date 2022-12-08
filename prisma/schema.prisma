@@ -9,8 +9,8 @@ generator client {
 
 datasource db {
   provider             = "postgresql"
-  // url                  = "postgresql://postgres:123@localhost:5432/nestjs?schema=public"
-  url                  = "postgresql://mxxyjievzjbhzf:f69f29089c7911f7eb76d3b0e7532676536eca59ea0180cf8c4632085c44897b@ec2-63-35-156-160.eu-west-1.compute.amazonaws.com:5432/d6c4aearath3c8"
+  // url                  = "postgresql://postgres:root@localhost:5432/postgres"
+  url                  = "postgres://jellyplain:SJBlJGcMInqD9MiotapUjxh86OR0XiNz@dpg-ce8u8uta4999i2m4b6m0-a.singapore-postgres.render.com/jellyplain"
   referentialIntegrity = "prisma"
 }
 
@@ -18,7 +18,7 @@ model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  
   cusId String
 
   role Roles @default(default)

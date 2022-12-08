@@ -15,7 +15,7 @@ export class VKAdminStrategy extends PassportStrategy(
         clientID: 51473574,
         clientSecret: 'eyukYXPWuEzwSvYkKM5x',
         callbackURL:
-          'https://jellyplainv2.herokuapp.com/auth/login/vkontakte-admin/redirect',
+          'https://jellyplain-back.onrender.com/auth/login/vkontakte-admin/redirect',
         scope: ['profile'],
         lang: 'ru',
       },
