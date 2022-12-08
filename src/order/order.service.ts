@@ -35,20 +35,12 @@ export class OrderService {
             yookassa: {
               create: {},
             },
+            address: { connect: { id: user.address.id } },
           },
           include: {
             productsOrder: true,
           },
         });
-        await this.prisma.address.update({
-          where: {
-            id: user.addressId
-          },
-          data: {
-            user: { connect: { id: user.id } },
-            order: { connect: {id: order.id} }
-          }
-        })
         return {
           id: order?.id,
         };
