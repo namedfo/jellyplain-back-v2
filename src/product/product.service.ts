@@ -6,6 +6,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ProductService {
   constructor(private prisma: PrismaService) {}
 
+
+  async productsCount() {
+    return await this.prisma.product.count();
+  }
+
   async create(dto: any) {
     // return await this.prisma.product.create({
     //   data: {

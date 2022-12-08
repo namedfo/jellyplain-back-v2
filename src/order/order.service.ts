@@ -12,6 +12,11 @@ export class OrderService {
     private readonly http: HttpService,
   ) { }
 
+
+  async ordersCount() {
+    return await this.prisma.order.count()
+  }
+
   async create(body: any, userId: number) {
     try {
       const user: any = await this.prisma.user.findUnique({

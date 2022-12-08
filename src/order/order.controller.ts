@@ -8,11 +8,20 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/roles.decorator';
+import { RolesGuard } from 'src/roles.guard';
 import { OrderService } from './order.service';
 
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
+
+  @Get('count')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
+  async orders() {
+    return await this.orderService.ordersCount();
+  }
 
   @UseGuards(AuthGuard('jwt')) // ,RolesGuard
   @Post('create')

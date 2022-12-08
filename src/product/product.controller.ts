@@ -9,6 +9,13 @@ import { ProductService } from './product.service';
 export class ProductController {
   constructor(private productService: ProductService) {}
 
+  @Get('count')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
+  async products() {
+    return await this.productService.productsCount();
+  }
+
   @Post('createOne')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')

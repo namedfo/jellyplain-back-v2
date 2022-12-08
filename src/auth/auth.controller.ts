@@ -32,6 +32,7 @@ export class AuthController {
   @Roles('admin')
   async meAdmin(@Headers() head: any) {
     const token = head.authorization.split(' ')[1];
+    console.log(token)
     return await this.authService.findUser(token);
   }
 
