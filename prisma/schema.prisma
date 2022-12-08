@@ -28,7 +28,7 @@ model User {
 
   address Address?
 
-  phone_number Int?
+  phone_number String?
 
   bdate      String?
   first_name String?
@@ -47,17 +47,19 @@ model Address {
 
   surname String?
   name    String?
-  middle  String?
+  middlename  String?
 
   country String?
   city    String?
   region  String?
 
   street      String?
-  home_street String?
-  home_number Int?
+  home_number String?
+  flat_number String?
 
-  postal_code Int?
+  postal_code String?
+
+  phone_number String?
 
   orders Order[]
 

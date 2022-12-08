@@ -41,7 +41,8 @@ export class AuthService {
         orders: {
           include: {
             yookassa: true,
-            address: true
+            address: true,
+            productsOrder: true,
           },
         },
       },
@@ -53,6 +54,7 @@ export class AuthService {
       first_name: user.first_name,
       orders: user.orders,
       address: user.address,
+      phone_number: user.phone_number,
       last_name: user.last_name,
       avatar_url: user.avatar_url,
       token: this.jwtService.sign({ id: user.id }),

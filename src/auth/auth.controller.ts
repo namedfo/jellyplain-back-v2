@@ -46,7 +46,7 @@ export class AuthController {
     const token = await this.authService.vkontakte(req?.user?.profile);
     // console.log(token)
     return res.redirect(
-      `https://jellyplain-main.vercel.app/auth?token=${token}`,
+      `http://localhost:3000/auth?token=${token}`,
     );
   }
 
@@ -60,7 +60,7 @@ export class AuthController {
   async googleRedirect(@Req() req: any, @Res() res: any) {
     const token = await this.authService.google(req?.user);
     return res.redirect(
-      `https://jellyplain-main.vercel.app/auth?token=${token}`,
+      `http://localhost:3000/auth?token=${token}`,
     );
   }
 
@@ -75,7 +75,7 @@ export class AuthController {
   async vkontakteAdminRedirect(@Req() req: any, @Res() res: any) {
     const token = await this.authService.vkontakte(req?.user?.profile);
     return res.redirect(
-      `https://jellyplain-admin.vercel.app/auth?token=${token}`,
+      `http://localhost:3000/auth?token=${token}`,
     );
   }
 
@@ -89,7 +89,7 @@ export class AuthController {
   async googleAdminRedirect(@Req() req: any, @Res() res: any) {
     const token = await this.authService.google(req?.user);
     return res.redirect(
-      `https://jellyplain-admin.vercel.app/auth?token=${token}`,
+      `http://localhost:3000/auth?token=${token}`,
     );
   }
 }

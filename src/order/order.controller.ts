@@ -20,6 +20,12 @@ export class OrderController {
     return await this.orderService.create(body, req?.user?.id);
   }
 
+  @UseGuards(AuthGuard('jwt')) // ,RolesGuard
+  @Post('updateDelivery')
+  async update(@Body() body: any, @Req() req: any) {
+    return await this.orderService.updateDelivery(body, req?.user?.id);
+  }
+
   @UseGuards(AuthGuard('jwt'))
   @Get('getOne')
   async get_one(@Query() query: any, @Req() req: any) {

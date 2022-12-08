@@ -11,7 +11,7 @@ export class VKStrategy extends PassportStrategy(Strategy, 'vkontakte') {
       {
         clientID: 51473574,
         clientSecret: 'eyukYXPWuEzwSvYkKM5x',
-        callbackURL: 'https://jellyplain-back.onrender.com/auth/login/vkontakte/redirect',
+        callbackURL: 'http://localhost:3333/auth/login/vkontakte/redirect',
         scope: ['profile'],
         lang: 'ru',
       },

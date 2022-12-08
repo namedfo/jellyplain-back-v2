@@ -3,8 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { map } from 'rxjs';
-import { AuthService } from 'src/auth/auth.service';
-import { throws } from 'assert';
 
 @Injectable()
 export class OrderService {
@@ -19,6 +17,9 @@ export class OrderService {
       const user: any = await this.prisma.user.findUnique({
         where: {
           id: userId
+        },
+        include: {
+          address: true
         }
       })
       if (user && user.address) {
@@ -68,11 +69,34 @@ export class OrderService {
             productsOrder: true,
           },
         });
+
         return {
           id: order?.id,
         };
       }
     } catch (error) { }
+  }
+
+  async updateDelivery(data: any, userId: number) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: userId
+        }
+      })
+      if (user) {
+        await this.prisma.order.update({
+          where: {
+            id: data.orderId
+          },
+          data: {
+            delivery: data.delivery,
+          }
+        })
+      }
+    } catch (error) {
+
+    }
   }
 
   async get_one(id: number, userId: number) {
@@ -182,13 +206,13 @@ export class OrderService {
           'https://api.yookassa.ru/v3/payments',
           {
             amount: {
-              value: `${order?.totalPrice}.00`,
+              value: `${order?.totalPrice + (order?.delivery === "pochtaru" ? 850 : 0)}.00`,
               currency: 'RUB',
             },
             capture: true,
             confirmation: {
               type: 'redirect',
-              return_url: `https://jellyplain-main.vercel.app/order/${order?.id}`,
+              return_url: `http://localhost:3000/order/${order?.id}`,
             },
             description: `${order?.id}`,
           },
