@@ -12,32 +12,75 @@ export class OrderService {
     private readonly prisma: PrismaService,
     // private readonly authService: AuthService,
     private readonly http: HttpService,
-  ) {}
+  ) { }
 
   async create(body: any, userId: number) {
     try {
-      const order = await this.prisma.order.create({
-        data: {
-          totalPrice: body.totalPrice,
-          delivery: body.delivery,
-          status: body.status,
-          user: { connect: { id: userId } },
-          // address: { connect: { id: body.address.id } },
-          productsOrder: {
-            create: body.productsOrder,
+      const user: any = await this.prisma.user.findUnique({
+        where: {
+          id: userId
+        }
+      })
+      if (user && user.address) {
+        const order = await this.prisma.order.create({
+          data: {
+            totalPrice: body.totalPrice,
+            delivery: body.delivery,
+            status: body.status,
+            user: { connect: { id: userId } },
+            // address: { connect: { id: body.address.id } },
+            productsOrder: {
+              create: body.productsOrder,
+            },
+            yookassa: {
+              create: {},
+            },
           },
-          yookassa: {
-            create: {},
+          include: {
+            productsOrder: true,
           },
-        },
-        include: {
-          productsOrder: true,
-        },
-      });
-      return {
-        id: order?.id,
-      };
-    } catch (error) {}
+        });
+        await this.prisma.address.update({
+          where: {
+            id: user.addressId
+          },
+          data: {
+            user: { connect: { id: user.id } },
+            order: { connect: {id: order.id} }
+          }
+        })
+        return {
+          id: order?.id,
+        };
+      } else {
+        const order = await this.prisma.order.create({
+          data: {
+            totalPrice: body.totalPrice,
+            delivery: body.delivery,
+            status: body.status,
+            user: { connect: { id: userId } },
+            // address: { connect: { id: body.address.id } },
+            productsOrder: {
+              create: body.productsOrder,
+            },
+            yookassa: {
+              create: {},
+            },
+            address: {
+              create: {
+                user: { connect: { id: user.id } }
+              }
+            }
+          },
+          include: {
+            productsOrder: true,
+          },
+        });
+        return {
+          id: order?.id,
+        };
+      }
+    } catch (error) { }
   }
 
   async get_one(id: number, userId: number) {
@@ -121,7 +164,7 @@ export class OrderService {
           confirmation_url: false,
         };
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   async buy(body: any) {
