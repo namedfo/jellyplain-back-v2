@@ -23,6 +23,7 @@ export class AuthService {
         orders: {
           include: {
             yookassa: true,
+            address: true,
           },
         },
       },
@@ -40,6 +41,7 @@ export class AuthService {
         orders: {
           include: {
             yookassa: true,
+            address: true
           },
         },
       },
