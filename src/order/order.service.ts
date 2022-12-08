@@ -82,7 +82,11 @@ export class OrderService {
           id: userId,
         },
         include: {
-          orders: true,
+          orders: {
+            include: {
+              address: true
+            }
+          },
         },
       });
 
