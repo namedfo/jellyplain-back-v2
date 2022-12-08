@@ -101,6 +101,7 @@ export class OrderService {
                 product: true,
               },
             },
+            address: true,
             yookassa: true,
           },
         });
@@ -137,6 +138,7 @@ export class OrderService {
                       product: true,
                     },
                   },
+                  address: true,
                   yookassa: true,
                 },
               }),
@@ -169,6 +171,7 @@ export class OrderService {
         id: body?.order?.id,
       },
       include: {
+        address: true,
         yookassa: true,
       },
     });
